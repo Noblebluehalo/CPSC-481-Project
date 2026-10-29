@@ -60,4 +60,31 @@ def score_postion(game, piece):
             else: # Depth is zero
                 return (None, score_postion(game, AI_PIECE))
 
-            
+            if maximizingPlayer:
+        value = -math.inf
+        best_col = valid_locations[0]
+        for col in valid_locations:
+            b_copy = copy.deepcopy(game)
+            b_copy.drop_piece(col, AI_PIECE)
+            new_score = minimax(b_copy, depth-1, alpha, beta, False)[1]
+            if new_score > value:
+                value = new_score
+                best_col = col
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break
+        return best_col, value
+    else:
+        value = math.inf
+        best_col = valid_locations[0]
+        for col in valid_locations:
+            b_copy = copy.deepcopy(game)
+            b_copy.drop_piece(col, PLAYER_PIECE)
+            new_score = minimax(b_copy, depth-1, alpha, beta, True)[1]
+            if new_score < value:
+                value = new_score
+                best_col = col
+            beta = min(beta, value)
+            if alpha >= beta:
+                break
+        return best_col, value
