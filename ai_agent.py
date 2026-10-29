@@ -21,4 +21,18 @@ def evaluate_window(window, piece):
 
     return score
 
+def score_postion(game, piece):
+    score = 0
+    board = game.board
+    #center column preference
+    center_array = [board[r][game.columns//2] for r in range(game.rows)]
+    center_count = center_array.count(piece)
+    score += center_count * 3
+
+    #Horizontal
+    for r in range(game.rows):
+        row_array = board[r]
+        for c in range(game.columns-3):
+            window = row_array[c:c+4]
+            score += evaluate_window(window, piece)
 
