@@ -36,3 +36,28 @@ def score_postion(game, piece):
             window = row_array[c:c+4]
             score += evaluate_window(window, piece)
 
+    #Vertical
+    for c in range(game.columns):
+        col_array = [board[r][c] for r in range(game.rows)]
+        for r in range(game.rows-3):
+            window = col_array[r:r+4]
+            score += evaluate_window(window, piece)
+
+    return score
+
+    def minimax(game, depth, alpha, beta, maximizingPlayer):
+        valid_locations = game.get_valid_Locations()
+        is_terminal = game.is_terminal_node()
+
+        if depth == 0 or is_terminal:
+            if is_terminal:
+                if game.check_win(AI_PIECE):
+                    return (None, 100000000000000)
+                elif game.check_win(PLAYER_PIECE):
+                    return (None, -10000000000000)
+                else: # Game is over, no more valid moves
+                    return (None, 0)
+            else: # Depth is zero
+                return (None, score_postion(game, AI_PIECE))
+
+            
